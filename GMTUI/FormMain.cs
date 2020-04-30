@@ -323,6 +323,7 @@ namespace GMTUI {
 		Point dragItemOrigin;
 		ListViewItemSnap dragSnap;
 		private void lvApps_MouseDown(object sender, MouseEventArgs e) {
+			if (e.Button != MouseButtons.Left) return;
 			dragItem = lvApps.GetItemAt(e.X, e.Y);
 			if (dragItem == null) return;
 			dragItemOrigin = new Point(e.X - dragItem.Position.X, e.Y - dragItem.Position.Y);
