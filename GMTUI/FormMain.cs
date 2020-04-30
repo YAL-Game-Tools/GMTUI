@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace GMTUI {
 	public partial class FormMain : Form {
@@ -250,15 +251,28 @@ namespace GMTUI {
 			}
 		}
 
+		static Regex RemoveIllegalNameChars_regex = null;
+		static string RemoveIllegalNameChars(string name) {
+			// https://stackoverflow.com/a/146162/5578773
+			var rx = RemoveIllegalNameChars_regex;
+			if (rx == null) {
+				var chars = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+				rx = new Regex("[" + Regex.Escape(chars) + "]");
+				RemoveIllegalNameChars_regex = rx;
+			}
+			return rx.Replace(name, "");
+		}
+
 		private void tsiCreateShortcut_Click(object sender, EventArgs ea) {
 			foreach (var item in GetSelectedGameListItems()) {
 				var itemPath = item.FullPath;
 				try {
-					var defName = Path.GetFileName(itemPath);
-					defName = Path.ChangeExtension(defName, ".lnk");
-					sfdShortcut.FileName = defName;
-					if (sfdShortcut.ShowDialog() != DialogResult.OK) continue; ;
+					sfdShortcut.FileName = RemoveIllegalNameChars(item.Text);
+					if (sfdShortcut.ShowDialog() != DialogResult.OK) continue;
 					var path = sfdShortcut.FileName;
+					if (Path.GetExtension(path).ToLower() != ".lnk") {
+						path = Path.ChangeExtension(path, ".lnk");
+					}
 					var dir = Path.GetDirectoryName(itemPath);
 					Shortcut.Create(
 						path,

@@ -271,7 +271,7 @@
 			// 
 			// sfdShortcut
 			// 
-			this.sfdShortcut.Filter = "*.lnk|Shortcut files";
+			this.sfdShortcut.Filter = "Shortcuts|*.lnk|All files|*.*";
 			// 
 			// FormMain
 			// 
