@@ -213,9 +213,9 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(440, 201);
+			this.Controls.Add(this.btEditConfig);
 			this.Controls.Add(this.btResetIcon);
 			this.Controls.Add(this.cbWindowed);
-			this.Controls.Add(this.btEditConfig);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.tbArgs);
 			this.Controls.Add(this.label4);
@@ -230,7 +230,7 @@
 			this.Controls.Add(this.label1);
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(8000, 240);
-			this.MinimumSize = new System.Drawing.Size(250, 240);
+			this.MinimumSize = new System.Drawing.Size(300, 240);
 			this.Name = "FormEdit";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Editing a bookmark";
