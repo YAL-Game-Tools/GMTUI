@@ -31,6 +31,8 @@
 			this.tsiAddBookmark = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsiLaunch = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsiEdit = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsiExplore = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsiDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.ilAppsBig = new System.Windows.Forms.ImageList(this.components);
 			this.ilApps = new System.Windows.Forms.ImageList(this.components);
@@ -44,8 +46,12 @@
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsiOpenHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsiAbout = new System.Windows.Forms.ToolStripMenuItem();
-			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			this.ofdExe = new System.Windows.Forms.OpenFileDialog();
 			this.heyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsiRename = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsiCreateShortcut = new System.Windows.Forms.ToolStripMenuItem();
+			this.sfdShortcut = new System.Windows.Forms.SaveFileDialog();
 			this.ctxApps.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -88,10 +94,15 @@
 			this.ctxApps.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsiAddBookmark,
             this.tsiLaunch,
-            this.tsiEdit,
-            this.tsiDelete});
+            this.tsiExplore,
+            this.toolStripSeparator1,
+            this.tsiCreateShortcut,
+            this.tsiDelete,
+            this.tsiRename,
+            this.toolStripSeparator2,
+            this.tsiEdit});
 			this.ctxApps.Name = "contextMenuStrip1";
-			this.ctxApps.Size = new System.Drawing.Size(163, 92);
+			this.ctxApps.Size = new System.Drawing.Size(163, 170);
 			this.ctxApps.Opening += new System.ComponentModel.CancelEventHandler(this.ctxApps_Opening);
 			// 
 			// tsiAddBookmark
@@ -112,15 +123,27 @@
 			// 
 			this.tsiEdit.Name = "tsiEdit";
 			this.tsiEdit.Size = new System.Drawing.Size(162, 22);
-			this.tsiEdit.Text = "Edit...";
-			this.tsiEdit.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+			this.tsiEdit.Text = "Properties";
+			this.tsiEdit.Click += new System.EventHandler(this.tsiEdit_Click);
+			// 
+			// tsiExplore
+			// 
+			this.tsiExplore.Name = "tsiExplore";
+			this.tsiExplore.Size = new System.Drawing.Size(162, 22);
+			this.tsiExplore.Text = "Open folder";
+			this.tsiExplore.Click += new System.EventHandler(this.tsiExplore_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(159, 6);
 			// 
 			// tsiDelete
 			// 
 			this.tsiDelete.Name = "tsiDelete";
 			this.tsiDelete.Size = new System.Drawing.Size(162, 22);
 			this.tsiDelete.Text = "Delete";
-			this.tsiDelete.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+			this.tsiDelete.Click += new System.EventHandler(this.tsiDelete_Click);
 			// 
 			// ilAppsBig
 			// 
@@ -136,17 +159,14 @@
 			// 
 			// menuStrip1
 			// 
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsiView,
+            this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(467, 24);
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[2]
-		{
-			tsiView,
-			helpToolStripMenuItem
-		});
-
 			// 
 			// tsiView
 			// 
@@ -163,14 +183,14 @@
 			// tsiViewSmallIcons
 			// 
 			this.tsiViewSmallIcons.Name = "tsiViewSmallIcons";
-			this.tsiViewSmallIcons.Size = new System.Drawing.Size(134, 22);
+			this.tsiViewSmallIcons.Size = new System.Drawing.Size(180, 22);
 			this.tsiViewSmallIcons.Text = "Small icons";
 			this.tsiViewSmallIcons.Click += new System.EventHandler(this.smallIconsToolStripMenuItem_Click);
 			// 
 			// tsiViewBigIcons
 			// 
 			this.tsiViewBigIcons.Name = "tsiViewBigIcons";
-			this.tsiViewBigIcons.Size = new System.Drawing.Size(134, 22);
+			this.tsiViewBigIcons.Size = new System.Drawing.Size(180, 22);
 			this.tsiViewBigIcons.Text = "Big icons";
 			this.tsiViewBigIcons.Click += new System.EventHandler(this.bigIconsToolStripMenuItem_Click);
 			// 
@@ -179,21 +199,21 @@
 			this.tsiViewDetails.Checked = true;
 			this.tsiViewDetails.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.tsiViewDetails.Name = "tsiViewDetails";
-			this.tsiViewDetails.Size = new System.Drawing.Size(134, 22);
+			this.tsiViewDetails.Size = new System.Drawing.Size(180, 22);
 			this.tsiViewDetails.Text = "Details";
 			this.tsiViewDetails.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
 			// 
 			// tsiViewList
 			// 
 			this.tsiViewList.Name = "tsiViewList";
-			this.tsiViewList.Size = new System.Drawing.Size(134, 22);
+			this.tsiViewList.Size = new System.Drawing.Size(180, 22);
 			this.tsiViewList.Text = "List";
 			this.tsiViewList.Click += new System.EventHandler(this.listToolStripMenuItem_Click);
 			// 
 			// tsiViewTile
 			// 
 			this.tsiViewTile.Name = "tsiViewTile";
-			this.tsiViewTile.Size = new System.Drawing.Size(134, 22);
+			this.tsiViewTile.Size = new System.Drawing.Size(180, 22);
 			this.tsiViewTile.Text = "Tile";
 			this.tsiViewTile.Click += new System.EventHandler(this.tileToolStripMenuItem_Click);
 			// 
@@ -220,16 +240,38 @@
 			this.tsiAbout.Text = "About";
 			this.tsiAbout.Click += new System.EventHandler(this.tsiAbout_Click);
 			// 
-			// openFileDialog1
+			// ofdExe
 			// 
-			this.openFileDialog1.FileName = "openFileDialog1";
-			this.openFileDialog1.Filter = "Hopefully GameMaker executables|*.exe";
+			this.ofdExe.Filter = "Hopefully GameMaker executables|*.exe";
 			// 
 			// heyToolStripMenuItem
 			// 
 			this.heyToolStripMenuItem.Name = "heyToolStripMenuItem";
 			this.heyToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
 			this.heyToolStripMenuItem.Text = "Hey";
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(159, 6);
+			// 
+			// tsiRename
+			// 
+			this.tsiRename.Name = "tsiRename";
+			this.tsiRename.Size = new System.Drawing.Size(162, 22);
+			this.tsiRename.Text = "Rename";
+			this.tsiRename.Click += new System.EventHandler(this.tsiRename_Click);
+			// 
+			// tsiCreateShortcut
+			// 
+			this.tsiCreateShortcut.Name = "tsiCreateShortcut";
+			this.tsiCreateShortcut.Size = new System.Drawing.Size(162, 22);
+			this.tsiCreateShortcut.Text = "Create shortcut";
+			this.tsiCreateShortcut.Click += new System.EventHandler(this.tsiCreateShortcut_Click);
+			// 
+			// sfdShortcut
+			// 
+			this.sfdShortcut.Filter = "*.lnk|Shortcut files";
 			// 
 			// FormMain
 			// 
@@ -258,7 +300,7 @@
 		private System.Windows.Forms.ListView lvApps;
 		private System.Windows.Forms.ContextMenuStrip ctxApps;
 		private System.Windows.Forms.MenuStrip menuStrip1;
-		private System.Windows.Forms.OpenFileDialog openFileDialog1;
+		private System.Windows.Forms.OpenFileDialog ofdExe;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ColumnHeader colName;
 		private System.Windows.Forms.ColumnHeader colNotes;
@@ -277,6 +319,12 @@
 		private System.Windows.Forms.ToolStripMenuItem tsiOpenHelp;
 		private System.Windows.Forms.ToolStripMenuItem tsiAbout;
 		private System.Windows.Forms.ToolStripMenuItem heyToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tsiExplore;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem tsiRename;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem tsiCreateShortcut;
+		private System.Windows.Forms.SaveFileDialog sfdShortcut;
 	}
 }
 

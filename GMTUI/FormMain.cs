@@ -141,13 +141,24 @@ namespace GMTUI {
 			lvApps.Items.Remove(item);
 			fullKeyMap.Remove(fullKey);
 		}
+
+		//
+		public GameListItem GetSelectedGameListItem() {
+			foreach (ListViewItem lvItem in lvApps.SelectedItems) {
+				if (lvItem is GameListItem) return lvItem as GameListItem;
+			}
+			return null;
+		}
+		public List<GameListItem> GetSelectedGameListItems() {
+			var result = new List<GameListItem>();
+			foreach (ListViewItem lvItem in lvApps.SelectedItems) {
+				if (lvItem is GameListItem) result.Add(lvItem as GameListItem);
+			}
+			return result;
+		}
 		//
 
-		private void addToolStripMenuItem_Click(object sender, EventArgs e) {
-			
-		}
-
-		#region View
+		#region View menu
 		private void SyncViewItems(ToolStripMenuItem current) {
 			foreach (ToolStripMenuItem item in tsiView.DropDownItems) {
 				item.Checked = item == current;
@@ -179,56 +190,12 @@ namespace GMTUI {
 		}
 		#endregion
 
-		private void editToolStripMenuItem_Click(object sender, EventArgs e) {
-			foreach (ListViewItem lvItem in lvApps.SelectedItems) {
-				if (!(lvItem is GameListItem)) continue;
-				var item = lvItem as GameListItem;
-				if (item.Editor != null) {
-					item.Editor.Focus();
-				} else {
-					var fm = new FormEdit();
-					fm.SetGameListItem(item);
-					fm.Show(this);
-				}
-			}
-		}
-
-		private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
-			var prompt = "Are you sure you want to remove this bookmark? This cannot be undone.";
-			if (MessageBox.Show(prompt, Text, MessageBoxButtons.YesNo) != DialogResult.Yes) return;
-			foreach (ListViewItem lvItem in lvApps.SelectedItems) {
-				if (lvItem is GameListItem) RemoveGLI(lvItem as GameListItem);
-			}
-		}
-
-		private void FormMain_FormClosing(object sender, FormClosingEventArgs e) {
-			FlushINI();
-		}
-
-		private void ctxApps_Opening(object sender, CancelEventArgs e) {
-			var isEmpty = lvApps.SelectedItems.Count == 0;
-			foreach (ToolStripItem item in ctxApps.Items) {
-				item.Visible = (item == tsiAddBookmark) == isEmpty;
-			}
-		}
-
-		private void tsiAddBookmark_Click(object sender, EventArgs e) {
-			if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
-			var path = openFileDialog1.FileName;
-			var name = Path.GetFileNameWithoutExtension(Path.GetFileName(path));
-			var item = new GameListItem(name, path);
-			AddGLI(item);
-		}
-
+		#region Item context menu
 		void LaunchSelected() {
-			if (lvApps.SelectedItems.Count == 0) return;
-			if (!(lvApps.SelectedItems[0] is GameListItem)) return;
-			var item = lvApps.SelectedItems[0] as GameListItem;
+			var item = GetSelectedGameListItem();
+			if (item == null) return;
 			try {
-				var args = $"\"{item.FullPath}\"";
-				if (item.CLIArgs != "") args += " " + item.CLIArgs;
-				if (item.ForceWindowed) args += " --windowed";
-				Process.Start(LauncherPath, args);
+				Process.Start(LauncherPath, item.GetLauncherArgs());
 			} catch (Exception e) {
 				MessageBox.Show(
 					"Failed to start:\r\n" + e
@@ -242,6 +209,91 @@ namespace GMTUI {
 
 		private void tsiLaunch_Click(object sender, EventArgs e) {
 			LaunchSelected();
+		}
+
+		private void tsiEdit_Click(object sender, EventArgs e) {
+			foreach (ListViewItem lvItem in lvApps.SelectedItems) {
+				if (!(lvItem is GameListItem)) continue;
+				var item = lvItem as GameListItem;
+				if (item.Editor != null) {
+					item.Editor.Focus();
+				} else {
+					var fm = new FormEdit();
+					fm.SetGameListItem(item);
+					fm.Show(this);
+				}
+			}
+		}
+
+		private void tsiExplore_Click(object sender, EventArgs e) {
+			foreach (ListViewItem lvItem in lvApps.SelectedItems) {
+				if (!(lvItem is GameListItem)) continue;
+				var item = lvItem as GameListItem;
+				try {
+					Process.Start(Path.GetDirectoryName(item.FullPath));
+				} catch (Exception) {
+					//
+				}
+			}
+		}
+
+		private void tsiRename_Click(object sender, EventArgs e) {
+			var item = GetSelectedGameListItem();
+			if (item != null) item.BeginEdit();
+		}
+
+		private void tsiDelete_Click(object sender, EventArgs e) {
+			var prompt = "Are you sure you want to remove this bookmark? This cannot be undone.";
+			if (MessageBox.Show(prompt, Text, MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+			foreach (ListViewItem lvItem in lvApps.SelectedItems) {
+				if (lvItem is GameListItem) RemoveGLI(lvItem as GameListItem);
+			}
+		}
+
+		private void tsiCreateShortcut_Click(object sender, EventArgs ea) {
+			foreach (var item in GetSelectedGameListItems()) {
+				var itemPath = item.FullPath;
+				try {
+					var defName = Path.GetFileName(itemPath);
+					defName = Path.ChangeExtension(defName, ".lnk");
+					sfdShortcut.FileName = defName;
+					if (sfdShortcut.ShowDialog() != DialogResult.OK) continue; ;
+					var path = sfdShortcut.FileName;
+					var dir = Path.GetDirectoryName(itemPath);
+					Shortcut.Create(
+						path,
+						LauncherPath,
+						item.GetLauncherArgs(),
+						dir,
+						"",
+						"",
+						item.IconPath ?? itemPath
+					);
+				} catch (Exception e) {
+					var msg = $"Failed to create shortcut for `{itemPath}`:\r\n" + e;
+					MessageBox.Show(msg, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}
+		#endregion
+
+		private void FormMain_FormClosing(object sender, FormClosingEventArgs e) {
+			FlushINI();
+		}
+
+		private void ctxApps_Opening(object sender, CancelEventArgs e) {
+			var isEmpty = lvApps.SelectedItems.Count == 0;
+			foreach (ToolStripItem item in ctxApps.Items) {
+				item.Visible = (item == tsiAddBookmark) == isEmpty;
+			}
+		}
+
+		private void tsiAddBookmark_Click(object sender, EventArgs e) {
+			if (ofdExe.ShowDialog() != DialogResult.OK) return;
+			var path = ofdExe.FileName;
+			var name = Path.GetFileNameWithoutExtension(Path.GetFileName(path));
+			var item = new GameListItem(name, path);
+			AddGLI(item);
 		}
 
 		private void tsiOpenHelp_Click(object sender, EventArgs e) {
@@ -298,5 +350,6 @@ namespace GMTUI {
 			}
 		}
 		#endregion
+
 	}
 }

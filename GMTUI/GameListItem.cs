@@ -51,5 +51,12 @@ namespace GMTUI {
 			FullPath = path;
 			SubItems.Add(new ListViewSubItem(this, ""));
 		}
+
+		public string GetLauncherArgs() {
+			var args = $"\"{FullPath}\"";
+			if (CLIArgs != "") args += " " + CLIArgs;
+			if (ForceWindowed) args += " --windowed";
+			return args;
+		}
 	}
 }
