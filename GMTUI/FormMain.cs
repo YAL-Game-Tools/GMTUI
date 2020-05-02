@@ -310,6 +310,15 @@ namespace GMTUI {
 			AddGLI(item);
 		}
 
+		#region Help menu
+		public FormHelp formHelp = null;
+		private void tsiHowto_Click(object sender, EventArgs e) {
+			if (formHelp == null) {
+				formHelp = new FormHelp(this);
+				formHelp.Show(this);
+			} else formHelp.Focus();
+		}
+
 		private void tsiOpenHelp_Click(object sender, EventArgs e) {
 			Process.Start(ExeFolder + @"\GMT-Readme.html");
 		}
@@ -317,6 +326,7 @@ namespace GMTUI {
 		private void tsiAbout_Click(object sender, EventArgs e) {
 			(new FormAbout()).ShowDialog(this);
 		}
+		#endregion
 
 		#region Reordering https://stackoverflow.com/a/19406069/5578773
 		ListViewItem dragItem;

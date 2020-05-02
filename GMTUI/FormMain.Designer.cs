@@ -30,10 +30,13 @@
 			this.ctxApps = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tsiAddBookmark = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsiLaunch = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsiEdit = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsiExplore = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsiCreateShortcut = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsiDelete = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsiRename = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.tsiEdit = new System.Windows.Forms.ToolStripMenuItem();
 			this.ilAppsBig = new System.Windows.Forms.ImageList(this.components);
 			this.ilApps = new System.Windows.Forms.ImageList(this.components);
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -48,10 +51,8 @@
 			this.tsiAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.ofdExe = new System.Windows.Forms.OpenFileDialog();
 			this.heyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsiRename = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsiCreateShortcut = new System.Windows.Forms.ToolStripMenuItem();
 			this.sfdShortcut = new System.Windows.Forms.SaveFileDialog();
+			this.tsiHowto = new System.Windows.Forms.ToolStripMenuItem();
 			this.ctxApps.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -119,13 +120,6 @@
 			this.tsiLaunch.Text = "Launch";
 			this.tsiLaunch.Click += new System.EventHandler(this.tsiLaunch_Click);
 			// 
-			// tsiEdit
-			// 
-			this.tsiEdit.Name = "tsiEdit";
-			this.tsiEdit.Size = new System.Drawing.Size(162, 22);
-			this.tsiEdit.Text = "Properties";
-			this.tsiEdit.Click += new System.EventHandler(this.tsiEdit_Click);
-			// 
 			// tsiExplore
 			// 
 			this.tsiExplore.Name = "tsiExplore";
@@ -138,12 +132,38 @@
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(159, 6);
 			// 
+			// tsiCreateShortcut
+			// 
+			this.tsiCreateShortcut.Name = "tsiCreateShortcut";
+			this.tsiCreateShortcut.Size = new System.Drawing.Size(162, 22);
+			this.tsiCreateShortcut.Text = "Create shortcut";
+			this.tsiCreateShortcut.Click += new System.EventHandler(this.tsiCreateShortcut_Click);
+			// 
 			// tsiDelete
 			// 
 			this.tsiDelete.Name = "tsiDelete";
 			this.tsiDelete.Size = new System.Drawing.Size(162, 22);
 			this.tsiDelete.Text = "Delete";
 			this.tsiDelete.Click += new System.EventHandler(this.tsiDelete_Click);
+			// 
+			// tsiRename
+			// 
+			this.tsiRename.Name = "tsiRename";
+			this.tsiRename.Size = new System.Drawing.Size(162, 22);
+			this.tsiRename.Text = "Rename";
+			this.tsiRename.Click += new System.EventHandler(this.tsiRename_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(159, 6);
+			// 
+			// tsiEdit
+			// 
+			this.tsiEdit.Name = "tsiEdit";
+			this.tsiEdit.Size = new System.Drawing.Size(162, 22);
+			this.tsiEdit.Text = "Properties";
+			this.tsiEdit.Click += new System.EventHandler(this.tsiEdit_Click);
 			// 
 			// ilAppsBig
 			// 
@@ -183,14 +203,14 @@
 			// tsiViewSmallIcons
 			// 
 			this.tsiViewSmallIcons.Name = "tsiViewSmallIcons";
-			this.tsiViewSmallIcons.Size = new System.Drawing.Size(180, 22);
+			this.tsiViewSmallIcons.Size = new System.Drawing.Size(134, 22);
 			this.tsiViewSmallIcons.Text = "Small icons";
 			this.tsiViewSmallIcons.Click += new System.EventHandler(this.smallIconsToolStripMenuItem_Click);
 			// 
 			// tsiViewBigIcons
 			// 
 			this.tsiViewBigIcons.Name = "tsiViewBigIcons";
-			this.tsiViewBigIcons.Size = new System.Drawing.Size(180, 22);
+			this.tsiViewBigIcons.Size = new System.Drawing.Size(134, 22);
 			this.tsiViewBigIcons.Text = "Big icons";
 			this.tsiViewBigIcons.Click += new System.EventHandler(this.bigIconsToolStripMenuItem_Click);
 			// 
@@ -199,27 +219,28 @@
 			this.tsiViewDetails.Checked = true;
 			this.tsiViewDetails.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.tsiViewDetails.Name = "tsiViewDetails";
-			this.tsiViewDetails.Size = new System.Drawing.Size(180, 22);
+			this.tsiViewDetails.Size = new System.Drawing.Size(134, 22);
 			this.tsiViewDetails.Text = "Details";
 			this.tsiViewDetails.Click += new System.EventHandler(this.detailsToolStripMenuItem_Click);
 			// 
 			// tsiViewList
 			// 
 			this.tsiViewList.Name = "tsiViewList";
-			this.tsiViewList.Size = new System.Drawing.Size(180, 22);
+			this.tsiViewList.Size = new System.Drawing.Size(134, 22);
 			this.tsiViewList.Text = "List";
 			this.tsiViewList.Click += new System.EventHandler(this.listToolStripMenuItem_Click);
 			// 
 			// tsiViewTile
 			// 
 			this.tsiViewTile.Name = "tsiViewTile";
-			this.tsiViewTile.Size = new System.Drawing.Size(180, 22);
+			this.tsiViewTile.Size = new System.Drawing.Size(134, 22);
 			this.tsiViewTile.Text = "Tile";
 			this.tsiViewTile.Click += new System.EventHandler(this.tileToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsiHowto,
             this.tsiOpenHelp,
             this.tsiAbout});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -229,14 +250,14 @@
 			// tsiOpenHelp
 			// 
 			this.tsiOpenHelp.Name = "tsiOpenHelp";
-			this.tsiOpenHelp.Size = new System.Drawing.Size(184, 22);
+			this.tsiOpenHelp.Size = new System.Drawing.Size(195, 22);
 			this.tsiOpenHelp.Text = "GMT documentation";
 			this.tsiOpenHelp.Click += new System.EventHandler(this.tsiOpenHelp_Click);
 			// 
 			// tsiAbout
 			// 
 			this.tsiAbout.Name = "tsiAbout";
-			this.tsiAbout.Size = new System.Drawing.Size(184, 22);
+			this.tsiAbout.Size = new System.Drawing.Size(195, 22);
 			this.tsiAbout.Text = "About";
 			this.tsiAbout.Click += new System.EventHandler(this.tsiAbout_Click);
 			// 
@@ -250,28 +271,16 @@
 			this.heyToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
 			this.heyToolStripMenuItem.Text = "Hey";
 			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(159, 6);
-			// 
-			// tsiRename
-			// 
-			this.tsiRename.Name = "tsiRename";
-			this.tsiRename.Size = new System.Drawing.Size(162, 22);
-			this.tsiRename.Text = "Rename";
-			this.tsiRename.Click += new System.EventHandler(this.tsiRename_Click);
-			// 
-			// tsiCreateShortcut
-			// 
-			this.tsiCreateShortcut.Name = "tsiCreateShortcut";
-			this.tsiCreateShortcut.Size = new System.Drawing.Size(162, 22);
-			this.tsiCreateShortcut.Text = "Create shortcut";
-			this.tsiCreateShortcut.Click += new System.EventHandler(this.tsiCreateShortcut_Click);
-			// 
 			// sfdShortcut
 			// 
 			this.sfdShortcut.Filter = "Shortcuts|*.lnk|All files|*.*";
+			// 
+			// tsiHowto
+			// 
+			this.tsiHowto.Name = "tsiHowto";
+			this.tsiHowto.Size = new System.Drawing.Size(184, 22);
+			this.tsiHowto.Text = "GMTUI how-to";
+			this.tsiHowto.Click += new System.EventHandler(this.tsiHowto_Click);
 			// 
 			// FormMain
 			// 
@@ -325,6 +334,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem tsiCreateShortcut;
 		private System.Windows.Forms.SaveFileDialog sfdShortcut;
+		private System.Windows.Forms.ToolStripMenuItem tsiHowto;
 	}
 }
 
